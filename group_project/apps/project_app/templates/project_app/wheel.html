@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <title>Document</title>
+    {% load static%}
+    <!-- LOCAL CSS -->
+    <link rel="stylesheet" href="{% static 'project_app/css/wheel.css' %}">
+    <!-- CSS RESET -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+    <!-- JAVASCRIPT -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="{% static 'project_app/js/wheel.js' %}"></script>
+</head>
+
+<body>
+
+
+    <div class="roulette">
+        <div class="spinner">
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">1</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">2</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">3</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">4</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">5</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">6</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">7</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">8</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">9</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">10</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">11</span>
+            </div>
+            <div class="triangle">
+                <!--span.text=String.fromCharCode(65+i)--><span class="text">12</span>
+            </div>
+        </div>
+        <div class="button button-spin" onclick="spin()"><span>MUNCH</span></div>
+    </div>
+    <h1>Pure CSS
+        Spinning
+        Roulette
+        Wheel</h1>
+
+</body>
+
+</html>

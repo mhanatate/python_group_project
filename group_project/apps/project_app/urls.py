@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^validate_login$', views.validate_login),
     url(r'^login_success$', views.success),
     url(r'^wheel$', views.wheel),
-
+    url(r'^logout$', views.wheel),
 ]

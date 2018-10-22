@@ -52,8 +52,12 @@ def wheel(request):
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
+<<<<<<< HEAD
     
     return redirect("/test")
+=======
+    return redirect("/results")
+>>>>>>> upstream/develop
 
 def preferences(request):
     return render(request, "project_app/preferences.html")
@@ -65,7 +69,11 @@ def process_preferences(request):
     return redirect('/wheel')
 
 def results(request):
+<<<<<<< HEAD
     return render(request, "project_app/test_subject.html")
+=======
+    return render(request, "project_app/testsubject.html")
+>>>>>>> upstream/develop
 
 def success(request):
     data = User.objects.get(id=request.session['id'])

@@ -1,5 +1,5 @@
 var count = $(".triangle").length;
-var spin = function spin(index) {
+var spin = function(index) {
   var $spinner = $(".spinner");
 
   var value = index >= 0 ? index : parseInt(Math.random() * count);
@@ -8,8 +8,9 @@ var spin = function spin(index) {
 
   $spinner.toggleClass("spin");
   $spinner[0].className = $spinner[0].className.replace(
-  new RegExp("(^|\\s)" + preffix + "\\S+", "g"),
-  "");
-
+    new RegExp("(^|\\s)" + preffix + "\\S+", "g"),
+    ""
+  );
   $spinner.addClass(preffix + value);
 };
+

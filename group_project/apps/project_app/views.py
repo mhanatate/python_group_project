@@ -59,9 +59,21 @@ def success(request):
     data = User.objects.get(id=request.session['id'])
     userdict = {
         "datakey": data
+        
     }
+    print('helllooooooooooooooooo')
     return render(request, "project_app/success.html", userdict)
 
+<<<<<<< HEAD
+def hello(request):
+    pass
+    return redirect('/')
+    
+def logoff(request):
+=======
 def logout(request):
+>>>>>>> frontend
     request.session['id'] = None
     return redirect('/')
+
+#jasonLUwashere

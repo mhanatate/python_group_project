@@ -117,8 +117,9 @@
     </div>
 
 
-    <form action="/logoff" method="POST" class="logoff">
-        <button type="submit">Logoff</button>
+    <form action="/logout" method="POST" class="logout">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
     </form>
 
 

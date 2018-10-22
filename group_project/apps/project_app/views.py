@@ -68,4 +68,3 @@ def logout(request):
     request.session['id'] = None
     return redirect('/')
 
-#jasonLUwashere

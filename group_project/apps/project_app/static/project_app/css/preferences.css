@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Work+Sans:400,700,900");
 
 body {
+    width: auto;
     font-family: "Work Sans", sans-serif;
     height: 100vh;
     overflow: hidden;

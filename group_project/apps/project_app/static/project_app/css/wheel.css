@@ -16,7 +16,7 @@ body {
     z-index: 1;
     font-size: 1em;
     width: 50em;
-    height: 50em;
+    height: 30em;
     top: 50%;
     left: 50%;
     margin-top: -25em;
@@ -24,8 +24,8 @@ body {
 }
 
 .roulette .spinner {
-    width: 50em;
-    height: 50em;
+    width: 10em;
+    height: 10em;
     position: relative;
     transition: -webkit-transform 1.5s cubic-bezier(0, 0.4, 0.4, 1.025);
     transition: transform 1.5s cubic-bezier(0, 0.4, 0.4, 1.025);
@@ -355,7 +355,7 @@ body {
 }
 
 .button {
-    display: block;
+    display: inline-block;
     text-align: center;
     font-weight: 800;
     background: #E85A4F;
@@ -381,7 +381,7 @@ body {
     width: 10em;
     height: 10em;
     line-height: 10em;
-    top: 50%;
+    top: 83%;
     left: 50%;
     margin-left: -5em;
     margin-top: -5em;

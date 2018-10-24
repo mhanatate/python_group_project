@@ -65,7 +65,7 @@ def wheel(request):
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
-    return redirect("/results")
+    return redirect("/testroute")
 
 def preferences(request):
     return render(request, "project_app/preferences.html")
@@ -74,6 +74,7 @@ def process_preferences(request):
     request.session['category'] = request.POST['category']
     request.session['price'] = request.POST['price']
     request.session['city'] = request.POST["city"]
+    request.session['state'] = request.POST["state"]
     return redirect('/wheel')
 
 def results(request):
@@ -92,9 +93,9 @@ def logout(request):
     return redirect('/')
 
 def yelpAPI(request):
-    category = 'term=chinese'
-    location = 'location=Seattle'
-    pricepoint = 'price=2'
+    category = f'term={request.session["category"]}'
+    location = f'location={request.session["city"]},{request.session["state"]}'
+    pricepoint = f'price={request.session["price"]}'
     limit = 'limit=12'
     rating = 'sort_by=rating'
     response = requests.get(URL + '?{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating), headers = header)

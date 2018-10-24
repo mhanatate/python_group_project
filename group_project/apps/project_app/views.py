@@ -59,12 +59,35 @@ def validate_login(request):
             return redirect("/")
 
 def wheel(request):
+    if 'category' not in request.session:
+        request.session['category'] = ""
+    if 'price' not in request.session:
+        request.session['price'] = ""
+    if 'city' not in request.session:
+        request.session['city'] = ""    
+    category = f'term={request.session["category"]}'
+    location = f'location={request.session["city"]}'
+    pricepoint = f'price={request.session["price"]}'
+    limit = 'limit=12'
+    rating = 'sort_by=rating'
+    response = requests.get(URL + '?{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating), headers = header)
+
+    business = response.json()
+    result = json.dumps(business, sort_keys=True, indent=4)
+    restdict = json.loads(result)
+    request.session['restdict'] = restdict
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
     return redirect("/results")
 
 def preferences(request):
+    if 'category' not in request.session:
+        request.session['category'] = ""
+    if 'price' not in request.session:
+        request.session['price'] = ""
+    if 'city' not in request.session:
+        request.session['city'] = ""    
     return render(request, "project_app/preferences.html")
 
 def process_preferences(request):
@@ -74,8 +97,11 @@ def process_preferences(request):
     return redirect('/wheel')
 
 def results(request):
-    print(request.session['data'])
-    return render(request, "project_app/testsubject.html")
+    google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
+    context = {
+        'api_key' : google_api,
+    }
+    return render(request, "project_app/testsubject.html", context)
 
 def success(request):
     data = User.objects.get(id=request.session['id'])
@@ -89,14 +115,20 @@ def logout(request):
     return redirect('/')
 
 def yelpAPI(request):
-    category = 'term=chinese'
-    location = 'location=Seattle'
-    pricepoint = 'price=2'
+    category = f'term={request.session["category"]}'
+    location = f'location={request.session["city"]}'
+    pricepoint = f'price={request.session["price"]}'
     limit = 'limit=12'
     rating = 'sort_by=rating'
-    response = requests.get(URL + '?{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating), headers = header)
-
+    radius = 'radius=10000'
+    response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
+    print(category)
+    print(location)
+    print(pricepoint)
     business = response.json()
     result = json.dumps(business, sort_keys=True, indent=4)
     restdict = json.loads(result)
+    print("&"*80)
+    print(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius))
+    print("&"*80)
     return HttpResponse(result, content_type="application/json")

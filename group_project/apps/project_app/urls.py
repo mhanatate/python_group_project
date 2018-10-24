@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'^process_wheel$', views.process_wheel),
     url(r'^results$', views.results),
     url(r'^testroute$', views.yelpAPI),
+<<<<<<< HEAD
 ]
+=======
+]
+>>>>>>> upstream/develop

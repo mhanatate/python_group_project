@@ -79,7 +79,7 @@ def wheel(request):
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
-    return redirect("/results")
+    return redirect("/testroute")
 
 def preferences(request):
     if 'category' not in request.session:
@@ -116,7 +116,7 @@ def logout(request):
 
 def yelpAPI(request):
     category = f'term={request.session["category"]}'
-    location = f'location={request.session["city"]}'
+    location = f'location={request.session["city"]},{request.session["state"]}'
     pricepoint = f'price={request.session["price"]}'
     limit = 'limit=12'
     rating = 'sort_by=rating'

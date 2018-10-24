@@ -28,6 +28,12 @@
             //     var userRating = this.value;
             //     alert(userRating);
             // }); 
+
+            $(li).click(function(){
+                var val = $(this).attr("value");
+                $("#category").val(val);
+                return true;
+            })
         });
     </script>
 </head>
@@ -65,6 +71,7 @@
                         <span>Type of Cuisine</span>
                         <i class="fa fa-chevron-left"></i>
                     </div>
+<<<<<<< HEAD
                     <input type="hidden" name="category" value="american resturant">
                         <ul class="dropdown-menu">
                             <li>American
@@ -107,6 +114,24 @@
                                 <input type="hidden"  value="vietnamese restaurant">
                             </li>
                         </ul>
+=======
+                    <input id="category" type="hidden" value="" name="category">
+                    <ul class="dropdown-menu">
+                        <li id=american>American</li>
+                        <li id=chinese>Chinese</li>
+                        <li id=french>French</li>
+                        <li id=greek>Greek </li>
+                        <li id=indian>Indian</li>
+                        <li id=italian>Italian</li>
+                        <li id=japanese>Japanese</li>
+                        <li id=korean>Korean </li>
+                        <li id=mediterranean>Mediterranean</li>
+                        <li id=mexican>Mexican</li>
+                        <li id=spanish>Spanish</li>
+                        <li id=thai>Thai</li>
+                        <li id=vietnamese>Vietnamese</li>
+                    </ul>
+>>>>>>> upstream/develop
                 </div>
             </label>
             <label>
@@ -115,12 +140,19 @@
                         <span>Your Price Range</span>
                         <i class="fa fa-chevron-left"></i>
                     </div>
+<<<<<<< HEAD
                     <input type="hidden" name="price" value="1">
+=======
+>>>>>>> upstream/develop
                     <ul class="dropdown-menu">
-                        <li value="1">Seriously broke or maybe just frugal $</li>
-                        <li value="2">Definitely frugal but making an exception $$</li>
-                        <li value="3">Quality over frugality always $$$</li>
-                        <li value="4">Too baller to care about the bill $$$$</li>
+                        <li>Seriously broke or maybe just frugal $
+                            <input type="hidden" value = "1" name="price"></li>
+                        <li>Definitely frugal but making an exception $$
+                            <input type="hidden" value = "1,2" name="price"></li>
+                        <li>Quality over frugality always $$$
+                            <input type="hidden" value = "1,2,3" name="price"></li>
+                        <li>Too baller to care about the bill $$$$
+                            <input type="hidden" value = "1,2,3,4" name="price"></li>
                     </ul>
                 </div>
                 </label>

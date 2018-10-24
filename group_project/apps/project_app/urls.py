@@ -12,5 +12,9 @@ urlpatterns = [
     url(r'^process_preferences$', views.process_preferences),
     url(r'^process_wheel$', views.process_wheel),
     url(r'^results$', views.results),
+<<<<<<< HEAD
     url(r'^testroute$', views.yelpAPI),
 ]
+=======
+]
+>>>>>>> fe1b05edc7405a0056d34b793e93afaaf620e82a

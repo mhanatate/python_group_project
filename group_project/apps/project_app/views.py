@@ -78,8 +78,7 @@ def process_preferences(request):
     return redirect('/wheel')
 
 def results(request):
-    print(request.session['data'])
-    return render(request, "project_app/testsubject.html")
+    return render(request, "project_app/result.html")
 
 def success(request):
     data = User.objects.get(id=request.session['id'])

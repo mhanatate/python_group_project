@@ -93,15 +93,17 @@ h6 {
 }
 
 #survey form {
-    width: 60%;
-    height: 20%;
-    margin: 10% auto;
+    position: absolute;
+    left: 15%;
+    top: 15%;
+    width: 65%;
+    height: 65%;
     background: #efefef;
-    padding: 80px 80px 80px 80px;
+    padding: 2%;
     text-align: center;
     -webkit-box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 10%;
+    border-radius: 2%;
 }
 
 label {

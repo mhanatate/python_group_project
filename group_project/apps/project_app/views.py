@@ -64,6 +64,8 @@ def wheel(request):
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
+    randnum = randint(0, 19)
+    request.session['randnum'] = randnum
     return redirect("/results")
 
 def preferences(request):
@@ -87,11 +89,10 @@ def process_preferences(request):
 def results(request):
     google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
 
-    randnum = randint(0, 11)
     category = f'term={request.session["category"]}'
     location = f'location={request.session["city"]},{request.session["state"]}'
     pricepoint = f'price={request.session["price"]}'
-    limit = 'limit=12'
+    limit = 'limit=20'
     rating = 'sort_by=rating'
     radius = 'radius=10000'
     response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
@@ -101,22 +102,23 @@ def results(request):
     
     context = {
         'api_key' : google_api,
-        'latitude' : restdict['businesses'][randnum]['coordinates']['latitude'],
-        'longitude' : restdict['businesses'][randnum]['coordinates']['longitude'],
+        'latitude' : restdict['businesses'][request.session['randnum']]['coordinates']['latitude'],
+        'longitude' : restdict['businesses'][request.session['randnum']]['coordinates']['longitude'],
 
         # restaurant info stuff you need jason
-        'restaurant_name' : restdict['businesses'][randnum]['name'],
+        'restaurant_name' : restdict['businesses'][request.session['randnum']]['name'],
         # category (please loop this for all the categories 'titles' that exists) (this is an array btw)
-        'title' : restdict['businesses'][randnum]['categories'][0]['title'],
-        'price' : restdict['businesses'][randnum]['price'],
-        'rating' : restdict['businesses'][randnum]['rating'],
-        'review_count' : restdict['businesses'][randnum]['review_count'],
+        'title' : restdict['businesses'][request.session['randnum']]['categories'][0]['title'],
+        'price' : restdict['businesses'][request.session['randnum']]['price'],
+        'rating' : restdict['businesses'][request.session['randnum']]['rating'],
+        'review_count' : restdict['businesses'][request.session['randnum']]['review_count'],
         #  address (please loop this for all lines of address that exists) (this is an array btw)
-        'restaurant_address' : restdict['businesses'][randnum]['location']['display_address'],
-        'restaurant_url' : restdict['businesses'][randnum]['url'],
-        'restaurant_phone_number' : restdict['businesses'][randnum]['display_phone'],
+        'restaurant_address' : restdict['businesses'][request.session['randnum']]['location']['display_address'],
+        'restaurant_url' : restdict['businesses'][request.session['randnum']]['url'],
+        'restaurant_phone_number' : restdict['businesses'][request.session['randnum']]['display_phone'],
+        'restaurant_image_url' : restdict['businesses'][request.session['randnum']]['image_url'],
     }
-    return render(request, "project_app/testsubject.html", context)
+    return render(request, "project_app/result.html", context)
 
 def success(request):
     data = User.objects.get(id=request.session['id'])
@@ -129,22 +131,22 @@ def logout(request):
     request.session['id'] = None
     return redirect('/')
 
-def yelpAPI(request):
-    category = f'term={request.session["category"]}'
-    location = f'location={request.session["city"]},{request.session["state"]}'
-    pricepoint = f'price={request.session["price"]}'
-    limit = 'limit=12'
-    rating = 'sort_by=rating'
-    radius = 'radius=10000'
-    response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
-    print(category)
-    print(location)
-    print(pricepoint)
-    business = response.json()
-    result = json.dumps(business, sort_keys=True, indent=4)
-    restdict = json.loads(result)
-    print("&"*80)
-    print(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius))
-    print(restdict['businesses'][0]['categories'][1]['title'])
-    print("&"*80)
-    return HttpResponse(result, content_type="application/json")
+# def yelpAPI(request):
+#     category = f'term={request.session["category"]}'
+#     location = f'location={request.session["city"]},{request.session["state"]}'
+#     pricepoint = f'price={request.session["price"]}'
+#     limit = 'limit=12'
+#     rating = 'sort_by=rating'
+#     radius = 'radius=10000'
+#     response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
+#     print(category)
+#     print(location)
+#     print(pricepoint)
+#     business = response.json()
+#     result = json.dumps(business, sort_keys=True, indent=4)
+#     restdict = json.loads(result)
+#     print("&"*80)
+#     print(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius))
+#     print(restdict['businesses'][0]['categories'][1]['title'])
+#     print("&"*80)
+#     return HttpResponse(result, content_type="application/json")

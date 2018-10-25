@@ -31,13 +31,25 @@
     </div>
 
     <div class="result_bar">
-        
+        <h3>
+            {{restaurant_name}}
+            {{price}}
+            {{rating}}&#x2606 
+        </h3>
+        <h4>
+            {% for key in restaurant_address %} {{key}} {% endfor %}
+            {{restaurant_phone_number}}
+        <!-- </h4>
+        <h5>
+            {{title}}
+        </h5> -->
     </div>
 
-    <div class="map_block">
+    <div id="map">
     </div>
 
     <div class="photo_block">
+        <img src="{{restaurant_image_url}}" alt="restaurant_image">
     </div>
 
     <div class="navbar">
@@ -54,7 +66,23 @@
 </body>
 
 <script>
+    function initMap() {
+      var myLatLng = {lat: {{latitude}}, lng: {{longitude}}};
 
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 16,
+        center: myLatLng
+      });
+
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+      });
+    }
+</script>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap">
 </script>
 
 </html>

@@ -32,17 +32,13 @@
 
     <div class="result_bar">
         <h3>
-            {{restaurant_name}}
+            <a href="{{restaurant_url}}" target="_blank">{{restaurant_name}}</a>
             {{price}}
             {{rating}}&#x2606 
         </h3>
         <h4>
             {% for key in restaurant_address %} {{key}} {% endfor %}
             {{restaurant_phone_number}}
-        <!-- </h4>
-        <h5>
-            {{title}}
-        </h5> -->
     </div>
 
     <div id="map">

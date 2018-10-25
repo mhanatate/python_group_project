@@ -85,8 +85,17 @@ h4 {
     top: 20%;
     font-size: 25px;
     height: auto;
-    width: auto;
+    width: 100%;
     color: gold;
+}
+
+a {
+    color: white;
+    transition: ease .3s;
+}
+
+a:hover {
+    color: #E85A4F;
 }
 
 #map {

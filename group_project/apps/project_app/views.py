@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from apps.project_app.models import User
+from random import randint
 import bcrypt
 import argparse
 import json
@@ -14,10 +15,6 @@ URL = 'https://api.yelp.com/v3/businesses/search'
 SEARCH_PATH = '/v3/businesses/search'
 api_key = '8fJisUcWi6_6M8q1TqXwV64duaoO7p6rs5Sh4xI9b6abzOxLgAHFW_OrD2jgX7rRH0a2bwm4Uhio4-5JiVQCbTHyvrzs8667unV_strpWIR6xq-CLwuT5V-uBH3KW3Yx'
 header = {'Authorization': 'Bearer ' + api_key}
-
-
-
-
 
 def index(request):
     if 'id' not in request.session or request.session['id'] == None:
@@ -63,12 +60,21 @@ def validate_login(request):
             return redirect("/")
 
 def wheel(request):
+    
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
-    return redirect("/testroute")
-    
+    return redirect("/results")
+
 def preferences(request):
+    if 'category' not in request.session:
+        request.session['category'] = ""
+    if 'price' not in request.session:
+        request.session['price'] = ""
+    if 'city' not in request.session:
+        request.session['city'] = ""    
+    if 'state' not in request.session:
+        request.session['state'] = ""    
     return render(request, "project_app/preferences.html")
 
 def process_preferences(request):
@@ -79,7 +85,38 @@ def process_preferences(request):
     return redirect('/wheel')
 
 def results(request):
-    return render(request, "project_app/result.html")
+    google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
+
+    randnum = randint(0, 11)
+    category = f'term={request.session["category"]}'
+    location = f'location={request.session["city"]},{request.session["state"]}'
+    pricepoint = f'price={request.session["price"]}'
+    limit = 'limit=12'
+    rating = 'sort_by=rating'
+    radius = 'radius=10000'
+    response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
+    business = response.json()
+    result = json.dumps(business, sort_keys=True, indent=4)
+    restdict = json.loads(result)
+    
+    context = {
+        'api_key' : google_api,
+        'latitude' : restdict['businesses'][randnum]['coordinates']['latitude'],
+        'longitude' : restdict['businesses'][randnum]['coordinates']['longitude'],
+
+        # restaurant info stuff you need jason
+        'restaurant_name' : restdict['businesses'][randnum]['name'],
+        # category (please loop this for all the categories 'titles' that exists) (this is an array btw)
+        'title' : restdict['businesses'][randnum]['categories'][0]['title'],
+        'price' : restdict['businesses'][randnum]['price'],
+        'rating' : restdict['businesses'][randnum]['rating'],
+        'review_count' : restdict['businesses'][randnum]['review_count'],
+        #  address (please loop this for all lines of address that exists) (this is an array btw)
+        'restaurant_address' : restdict['businesses'][randnum]['location']['display_address'],
+        'restaurant_url' : restdict['businesses'][randnum]['url'],
+        'restaurant_phone_number' : restdict['businesses'][randnum]['display_phone'],
+    }
+    return render(request, "project_app/testsubject.html", context)
 
 def success(request):
     data = User.objects.get(id=request.session['id'])
@@ -93,28 +130,21 @@ def logout(request):
     return redirect('/')
 
 def yelpAPI(request):
-    is_cached = ('business' in request.session)
-
-    if not is_cached:
-        zip_code = 98006
-        response = requests.get('https://api.yelp.com/v3/businesses/search/%s' % zip_code)
-        request.session['business'] = response.json()
-        
-
-    business = request.session['business']
-
-    return render(request, 'project_app/testsubject.html', {
-        'mileradius' : business['radius'],
-        'location' : business['location'],
-        'latitude': business['latitude'],
-        'longitude': business['longitude'],
-        'phone' : business['phone'],
-        'url' : business['url'],
-        'rating' : business[ 'rating'],
-        'review_count' : business[ 'review_count'],
-        'price' : business['price'],
-        'name': business['name'],
-        'categories': business['categories'],
-        'is_cached': is_cached,
-        'api_key': '8fJisUcWi6_6M8q1TqXwV64duaoO7p6rs5Sh4xI9b6abzOxLgAHFW_OrD2jgX7rRH0a2bwm4Uhio4-5JiVQCbTHyvrzs8667unV_strpWIR6xq-CLwuT5V-uBH3KW3Yx',  # Don't do this! This is just an example. Secure your keys properly.\
-    })
+    category = f'term={request.session["category"]}'
+    location = f'location={request.session["city"]},{request.session["state"]}'
+    pricepoint = f'price={request.session["price"]}'
+    limit = 'limit=12'
+    rating = 'sort_by=rating'
+    radius = 'radius=10000'
+    response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
+    print(category)
+    print(location)
+    print(pricepoint)
+    business = response.json()
+    result = json.dumps(business, sort_keys=True, indent=4)
+    restdict = json.loads(result)
+    print("&"*80)
+    print(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius))
+    print(restdict['businesses'][0]['categories'][1]['title'])
+    print("&"*80)
+    return HttpResponse(result, content_type="application/json")

@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-from django.shortcuts import render, redirect, HttpResponse
-=======
 from django.shortcuts import render, redirect
-import requests
->>>>>>> fe1b05edc7405a0056d34b793e93afaaf620e82a
 from django.contrib import messages
 from apps.project_app.models import User
 import bcrypt
@@ -71,18 +66,12 @@ def wheel(request):
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
-<<<<<<< HEAD
     return redirect("/testroute")
-=======
     
-    return redirect("/test")
->>>>>>> fe1b05edc7405a0056d34b793e93afaaf620e82a
-
 def preferences(request):
     return render(request, "project_app/preferences.html")
 
 def process_preferences(request):
-<<<<<<< HEAD
     request.session['category'] = request.POST['category']
     request.session['price'] = request.POST['price']
     request.session['city'] = request.POST["city"]
@@ -91,15 +80,6 @@ def process_preferences(request):
 
 def results(request):
     return render(request, "project_app/result.html")
-=======
-    request.session['type'] = request.POST['type']
-    request.session['price'] = request.POST['price']
-    request.session['rating'] = request.POST['rating']
-    return redirect('/wheel')
-
-def results(request):
-    return render(request, "project_app/test_subject.html")
->>>>>>> fe1b05edc7405a0056d34b793e93afaaf620e82a
 
 def success(request):
     data = User.objects.get(id=request.session['id'])
@@ -113,49 +93,13 @@ def logout(request):
     return redirect('/')
 
 def yelpAPI(request):
-<<<<<<< HEAD
-    category = f'term={request.session["category"]}'
-    location = f'location={request.session["city"]},{request.session["state"]}'
-    pricepoint = f'price={request.session["price"]}'
-    limit = 'limit=12'
-    rating = 'sort_by=rating'
-    response = requests.get(URL + '?{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating), headers = header)
-    # request.session['business'] = response.json()
-    business = response.json()
-    result = json.dumps(business, sort_keys=True, indent=4)
-    restdict = json.loads(result)
-    print("*"*80)
-    print(URL + '?{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating))
-    print(result)
-    print("*"*80)
-
-    # business = request.session['business']
-
-    # context = {
-    #     'mileradius' : business['radius'],
-    #     'location' : business['location'],
-    #     'latitude': business['latitude'],
-    #     'longitude': business['longitude'],
-    #     'phone' : business['phone'],
-    #     'url' : business['url'],
-    #     'rating' : business[ 'rating'],
-    #     'review_count' : business[ 'review_count'],
-    #     'price' : business['price'],
-    #     'name': business['name'],
-    #     'categories': business['categories'],
-    #     'is_cached': is_cached,
-    #     'api_key': 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes',  # Don't do this! This is just an example. Secure your keys properly.\
-    # }
-
-    # return render(request, 'project_app/testsubject.html')
-    return HttpResponse(result, content_type="application/json")
-=======
     is_cached = ('business' in request.session)
 
     if not is_cached:
         zip_code = 98006
         response = requests.get('https://api.yelp.com/v3/businesses/search/%s' % zip_code)
         request.session['business'] = response.json()
+        
 
     business = request.session['business']
 
@@ -174,4 +118,3 @@ def yelpAPI(request):
         'is_cached': is_cached,
         'api_key': '8fJisUcWi6_6M8q1TqXwV64duaoO7p6rs5Sh4xI9b6abzOxLgAHFW_OrD2jgX7rRH0a2bwm4Uhio4-5JiVQCbTHyvrzs8667unV_strpWIR6xq-CLwuT5V-uBH3KW3Yx',  # Don't do this! This is just an example. Secure your keys properly.\
     })
->>>>>>> fe1b05edc7405a0056d34b793e93afaaf620e82a

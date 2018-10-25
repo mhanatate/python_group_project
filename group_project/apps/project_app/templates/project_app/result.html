@@ -30,6 +30,14 @@
         </h6>
     </div>
 
+
+    <div class="roulette" onclick="window.location.href='/wheel'">
+        <div class="spinner">
+        </div>
+            <div class="button button-spin"><span>RE-MUNCH</span></div>
+    </div>
+
+    
     <div class="result_bar">
         <h3>
             <a href="{{restaurant_url}}" target="_blank">{{restaurant_name}}</a>
@@ -48,12 +56,12 @@
         <img src="{{restaurant_image_url}}" alt="restaurant_image">
     </div>
 
-    <div class="navbar">
+    <!-- <div class="navbar">
         <form action="/wheel" method="POST" class="wheel">
             {% csrf_token %}
             <button>Wheel</button>
         </form>
-    </div>
+    </div> -->
 
     <div class="navbar2">
     </div>

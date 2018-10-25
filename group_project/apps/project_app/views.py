@@ -40,7 +40,7 @@ def validate_register(request):
         user = User.objects.get(email=request.POST['email'])
         request.session['id'] = user.id
         request.session['message'] = "registered"
-        return redirect("/login_success")
+        return redirect("/success")
 
 def validate_login(request):
     request.session['error'] = ""
@@ -60,7 +60,14 @@ def validate_login(request):
             return redirect("/")
 
 def wheel(request):
-    
+    if 'category' not in request.session:
+        request.session['category'] = "Restaurant"
+    if 'price' not in request.session:
+        request.session['price'] = "1,2,3,4"
+    if 'city' not in request.session:
+        request.session['city'] = "Seattle"
+    if 'state' not in request.session:
+        request.session['state'] = "WA"
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
@@ -69,14 +76,6 @@ def process_wheel(request):
     return redirect("/results")
 
 def preferences(request):
-    if 'category' not in request.session:
-        request.session['category'] = ""
-    if 'price' not in request.session:
-        request.session['price'] = ""
-    if 'city' not in request.session:
-        request.session['city'] = ""    
-    if 'state' not in request.session:
-        request.session['state'] = ""    
     return render(request, "project_app/preferences.html")
 
 def process_preferences(request):
@@ -89,13 +88,14 @@ def process_preferences(request):
 def results(request):
     google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
     x = 8000
+    opennow = 'open_now=true'
     category = f'term={request.session["category"]}'
     location = f'location={request.session["city"]},{request.session["state"]}'
     pricepoint = f'price={request.session["price"]}'
     limit = 'limit=30'
     rating = 'sort_by=rating'
     radius = f'radius={x}'
-    response = requests.get(URL + '?{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius), headers = header)
+    response = requests.get(URL + '?{}&{}&{}&{}&{}&{}&{}'.format(category, location, pricepoint, limit, rating, radius, opennow), headers = header)
     business = response.json()
     result = json.dumps(business, sort_keys=True, indent=4)
     restdict = json.loads(result)

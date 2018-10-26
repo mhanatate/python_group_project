@@ -60,7 +60,10 @@ def validate_login(request):
             return redirect("/")
 
 def wheel(request):
-    
+    if 'city' not in request.session:
+        request.session['city'] = "seattle"    
+    if 'state' not in request.session:
+        request.session['state'] = "wa" 
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
@@ -90,7 +93,7 @@ def process_preferences(request):
     request.session['price'] = request.POST['price']
     request.session['city'] = request.POST["city"]
     request.session['state'] = request.POST["state"]
-    request.session['glutenfree'] = request.POST['glutenfree']
+    request.session['glutenfree'] = request.POST['gluten']
     request.session['vegitarian'] = request.POST['vegitarian']
     request.session['vegan'] = request.POST['vegan']
     return redirect('/wheel')
@@ -98,7 +101,7 @@ def process_preferences(request):
 def results(request):
     google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
     x = 8000
-    category = f'term={request.session["category"]},{request.session["glutenfree"]},{request.session["vegitarian"]},{request.session["advanced_Search"]}'
+    category = f'term={request.session["category"]},{request.session["glutenfree"]},{request.session["vegitarian"]},{request.session["vegan"]}'
     location = f'location={request.session["city"]},{request.session["state"]}'
     pricepoint = f'price={request.session["price"]}'
     limit = 'limit=30'
@@ -157,6 +160,12 @@ def success(request):
         "datakey": data
     }
     return render(request, "project_app/success.html", userdict)
+
+def delete(request):
+    request.session['glutenfree'] = ""
+    request.session['vegitarian'] = ""
+    request.session['vegan'] = ""
+    return redirect('/preferences')
 
 def logout(request):
     request.session['id'] = None

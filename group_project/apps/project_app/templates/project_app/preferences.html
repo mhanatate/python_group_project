@@ -131,38 +131,36 @@
 
     <div class="wrap">
         <div class="s007">
-            <form>
+            <form action="/process_preferences" method="POST">
             <div class="inner-form">
                 <div class="advance-search">
                 <span class="desc">Advanced Search</span>
                 <label class="container">Gluten Free
-                    <input type="checkbox" checked="checked">
+                    <input type="checkbox" checked="checked" name="gluten">
                     <span class="checkmark"></span>
                 </label>
                 
                 <label class="container">Vegetarian
-                    <input type="checkbox">
+                    <input type="checkbox" name="vegetarian">
                     <span class="checkmark"></span>
                 </label>
                 
                 <label class="container">Vegan
-                    <input type="checkbox">
+                    <input type="checkbox" name="vegan">
                     <span class="checkmark"></span>
                 </label>
                 
-                <!-- <label class="container">
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                </label> -->
                 <div class="row third">
                     <div class="input-field">
-                    <button class="btn-search">Confirm</button>
-                    <button class="btn-delete" id="delete">Delete</button>
+                    <button class="btn-search" type="submit">Confirm</button>
+                </form>
+                <form action="/delete" method="POST">
+                    <button class="btn-delete" id="delete">Delete</button>                
+                </form>
                     </div>
                 </div>
                 </div>
             </div>
-            </form>
         </div>
     </div>
 

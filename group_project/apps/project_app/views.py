@@ -86,26 +86,40 @@ def preferences(request):
         request.session['state'] = "" 
     if 'glutenfree' not in request.session:
         request.session['glutenfree'] = ""  
-    if 'vegitarian' not in request.session:
-        request.session['vegitarian'] = ""  
+    if 'vegetarian' not in request.session:
+        request.session['vegetarian'] = ""  
     if 'vegan' not in request.session:
         request.session['vegan'] = ""  
     return render(request, "project_app/preferences.html")
 
 def process_preferences(request):
-    request.session['category'] = request.POST['category']
-    request.session['price'] = request.POST['price']
+    request.session['category'] = request.POST["category"]
+    request.session['price'] = request.POST["price"]
     request.session['city'] = request.POST["city"]
     request.session['state'] = request.POST["state"]
-    request.session['glutenfree'] = request.POST['gluten']
-    request.session['vegitarian'] = request.POST['vegitarian']
-    request.session['vegan'] = request.POST['vegan']
     return redirect('/wheel')
+
+def process_advanced_preferences(request):
+    if request.POST.get("gluten", False):
+        request.session['glutenfree'] = ""
+    else:
+        request.session['glutenfree'] = "gluten free"
+    
+    if request.POST.get("vegetarian", False):
+        request.session['vegetarian'] = ""
+    else:
+        request.session['vegetarian'] = "vegetarian"
+    
+    if request.POST.get("vegan", False):
+        request.session['vegan'] = ""
+    else:
+        request.session['vegan'] = "vegan"
+    return redirect('/preferences')
 
 def results(request):
     google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
     x = 8000
-    category = f'term={request.session["category"]},{request.session["glutenfree"]},{request.session["vegitarian"]},{request.session["vegan"]}'
+    category = f'term={request.session["category"]},{request.session["glutenfree"]},{request.session["vegetarian"]},{request.session["vegan"]}'
     opennow = 'open_now=true'
     location = f'location={request.session["city"]},{request.session["state"]}'
     pricepoint = f'price={request.session["price"]}'
@@ -147,16 +161,17 @@ def results(request):
         'restaurant_image_url' : restdict['businesses'][request.session['randnum']]['image_url'],
 ############################################################################################################################
         # this is top 10 restaurants in your area part
-        'restaurant_name2' : restdict2['businesses'][request.session[i]]['name'],
-        'title2' : restdict2['businesses'][request.session[i]]['categories'][0]['title'],
-        'price2' : restdict2['businesses'][request.session[i]]['price'],
-        'rating2' : restdict2['businesses'][request.session[i]]['rating'],
-        'review_count2' : restdict2['businesses'][request.session[i]]['review_count'],
-        'restaurant_address2' : restdict2['businesses'][request.session[i]]['location']['display_address'],
-        'restaurant_url2' : restdict2['businesses'][request.session[i]]['url'],
-        'restaurant_phone_number2' : restdict2['businesses'][request.session[i]]['display_phone'],
+        # 'restaurant_name2' : restdict2['businesses'][request.session[i]]['name'],
+        # 'title2' : restdict2['businesses'][request.session[i]]['categories'][0]['title'],
+        # 'price2' : restdict2['businesses'][request.session[i]]['price'],
+        # 'rating2' : restdict2['businesses'][request.session[i]]['rating'],
+        # 'review_count2' : restdict2['businesses'][request.session[i]]['review_count'],
+        # 'restaurant_address2' : restdict2['businesses'][request.session[i]]['location']['display_address'],
+        # 'restaurant_url2' : restdict2['businesses'][request.session[i]]['url'],
+        # 'restaurant_phone_number2' : restdict2['businesses'][request.session[i]]['display_phone'],
         # end of top 10 restaurant part
     }
+    print(request.session['vegetarian'])
     return render(request, "project_app/result.html", context)
 
 def success(request):

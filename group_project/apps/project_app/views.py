@@ -40,7 +40,7 @@ def validate_register(request):
         user = User.objects.get(email=request.POST['email'])
         request.session['id'] = user.id
         request.session['message'] = "registered"
-        return redirect("/login_success")
+        return redirect("/success")
 
 def validate_login(request):
     request.session['error'] = ""
@@ -60,10 +60,14 @@ def validate_login(request):
             return redirect("/")
 
 def wheel(request):
+    if 'category' not in request.session:
+        request.session['category'] = "Restaurant"
+    if 'price' not in request.session:
+        request.session['price'] = "1,2,3,4"
     if 'city' not in request.session:
-        request.session['city'] = "seattle"    
+        request.session['city'] = "Seattle"
     if 'state' not in request.session:
-        request.session['state'] = "wa" 
+        request.session['state'] = "WA"
     return render(request, "project_app/wheel.html")
 
 def process_wheel(request):
@@ -102,6 +106,7 @@ def results(request):
     google_api = 'AIzaSyCX4x-GRqo8LUQQyYnCy6rgmC5PsefMtes'
     x = 8000
     category = f'term={request.session["category"]},{request.session["glutenfree"]},{request.session["vegitarian"]},{request.session["vegan"]}'
+    opennow = 'open_now=true'
     location = f'location={request.session["city"]},{request.session["state"]}'
     pricepoint = f'price={request.session["price"]}'
     limit = 'limit=30'
@@ -152,7 +157,7 @@ def results(request):
         'restaurant_phone_number2' : restdict2['businesses'][request.session[i]]['display_phone'],
         # end of top 10 restaurant part
     }
-    return render(request, "project_app/testsubject.html", context)
+    return render(request, "project_app/result.html", context)
 
 def success(request):
     data = User.objects.get(id=request.session['id'])
